@@ -7,7 +7,7 @@ import {
 
 const router = express.Router();
 
-//Gets total reviews for a game
+//Gets total reactions for a review
 router.get("/review/:reviewId", getReactionsByReview);
 
 //Like a review or remove like a review if already liked

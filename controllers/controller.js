@@ -48,7 +48,6 @@ export const likeReview = async (req, res) => {
     ).run(userId, reviewId);
     //Sends notification over mq
     const author = await getAuthorId(reviewId);
-    console.log(author);
     publishNotification(userId, author, reviewId, "review_liked");
     return res.status(201).json({ message: "Successfully like review" });
   }

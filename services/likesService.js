@@ -3,7 +3,6 @@ const review_service_url = `http://localhost:4000`;
 // In-memory cache (optional for even faster access)
 const localCache = new Map();
 
-// Get authorId using cache → Redis → fallback HTTP
 export async function getAuthorId(reviewId) {
   // 1. Check in-memory cache
   if (localCache.has(reviewId)) return localCache.get(reviewId);
