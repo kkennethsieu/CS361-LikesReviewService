@@ -1,4 +1,6 @@
 import db from "../db/db.js";
+import { getAuthorId } from "../services/likesService.js";
+import publishNotification from "../services/notificationService.js";
 export const getReactionsByReview = (req, res) => {
   const { reviewId } = req.params;
 
@@ -20,7 +22,7 @@ export const getReactionsByReview = (req, res) => {
   });
 };
 
-export const likeReview = (req, res) => {
+export const likeReview = async (req, res) => {
   const { userId, reviewId } = req.params;
 
   const stmt = db.prepare(
@@ -44,6 +46,10 @@ export const likeReview = (req, res) => {
     db.prepare(
       "INSERT INTO reviewLikes (userId, reviewId, isLike) VALUES (?,?,1)"
     ).run(userId, reviewId);
+    //Sends notification over mq
+    const author = await getAuthorId(reviewId);
+    console.log(author);
+    publishNotification(userId, author, reviewId, "review_liked");
     return res.status(201).json({ message: "Successfully like review" });
   }
 };
