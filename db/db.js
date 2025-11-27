@@ -11,14 +11,14 @@ try {
             userId INTEGER NOT NULL,
             reviewId INTEGER NOT NULL,
             isLike BOOLEAN NOT NULL, -- true = like, false = dislike
-            createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+            createdAt TEXT DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
             UNIQUE(userId, reviewId)
           )
         `
   ).run();
 
   // To reset the table during development
-  //   db.exec("DROP TABLE IF EXISTS reviewLikes");
+  // db.exec("DROP TABLE IF EXISTS reviewLikes");
 } catch (error) {
   console.log("Error creating likes table:", error);
 }

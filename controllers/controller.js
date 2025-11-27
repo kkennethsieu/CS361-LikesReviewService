@@ -48,12 +48,17 @@ export const likeReview = async (req, res) => {
     ).run(userId, reviewId);
     //Sends notification over mq
     const author = await getAuthorId(reviewId);
-    publishNotification(userId, author, reviewId, "review_liked");
+    publishNotification({
+      senderId: userId,
+      receiverId: author,
+      entityId: reviewId,
+      type: "review_liked",
+    });
     return res.status(201).json({ message: "Successfully like review" });
   }
 };
 
-export const dislikeReview = (req, res) => {
+export const dislikeReview = async (req, res) => {
   const { userId, reviewId } = req.params;
 
   const stmt = db.prepare(
@@ -77,6 +82,14 @@ export const dislikeReview = (req, res) => {
     db.prepare(
       "INSERT INTO reviewLikes (userId, reviewId, isLike) VALUES (?,?,0)"
     ).run(userId, reviewId);
+    const author = await getAuthorId(reviewId);
+
+    publishNotification({
+      senderId: userId,
+      receiverId: author,
+      entityId: reviewId,
+      type: "review_disliked",
+    });
     return res.status(201).json({ message: "Successfully disliked review" });
   }
 };
