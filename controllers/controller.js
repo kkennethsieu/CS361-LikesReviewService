@@ -38,10 +38,9 @@ export const likeReview = async (req, res) => {
     const existing = stmt.get(userId, reviewId);
 
     if (existing && existing.isLike === 1) {
-      db.prepare("DELETE FROM reviewLikes WHERE userId = ? and reviewId = ?").run(
-        userId,
-        reviewId
-      );
+      db.prepare(
+        "DELETE FROM reviewLikes WHERE userId = ? and reviewId = ?"
+      ).run(userId, reviewId);
       return res.status(200).json({ message: "Removed like" });
     } else if (existing && existing.isLike === 0) {
       db.prepare(
@@ -86,10 +85,9 @@ export const dislikeReview = async (req, res) => {
     const existing = stmt.get(userId, reviewId);
 
     if (existing && existing.isLike === 0) {
-      db.prepare("DELETE FROM reviewLikes WHERE userId = ? and reviewId = ?").run(
-        userId,
-        reviewId
-      );
+      db.prepare(
+        "DELETE FROM reviewLikes WHERE userId = ? and reviewId = ?"
+      ).run(userId, reviewId);
       return res.status(200).json({ message: "Removed dislike" });
     } else if (existing && existing.isLike === 1) {
       db.prepare(

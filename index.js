@@ -1,6 +1,9 @@
 import express from "express";
 import likesRoutes from "./routes/likesRoutes.js";
 import cors from "cors";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 
@@ -26,7 +29,7 @@ app.get("/", (req, res) => {
 
 app.use("/likes", likesRoutes);
 
-const PORT = 7060;
+const PORT = process.env.PORT || 7060;
 
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
