@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
 
 app.use("/likes", likesRoutes);
 
-const PORT = process.env.PORT || 7060;
+const PORT = process.env.LIKES_PORT || 7060;
 
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);

@@ -6,7 +6,7 @@ const connectWithRetry = async () => {
   let retries = 0;
   while (true) {
     try {
-      const connection = await amqplib.connect("amqp://localhost:5672");
+      const connection = await amqplib.connect(process.env.RABBITMQ_URL);
       console.log("Connected to RabbitMQ");
       return connection;
     } catch (err) {
