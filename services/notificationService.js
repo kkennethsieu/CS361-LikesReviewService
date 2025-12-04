@@ -1,12 +1,29 @@
 import amqplib from "amqplib";
 
+//this will retry to connect to rabbitmq if its not booted up yet.
+
+const connectWithRetry = async () => {
+  let retries = 0;
+  while (true) {
+    try {
+      const connection = await amqplib.connect("amqp://localhost:5672");
+      console.log("Connected to RabbitMQ");
+      return connection;
+    } catch (err) {
+      retries++;
+      console.log(`RabbitMQ not ready, retrying in 2s... (attempt ${retries})`);
+      await new Promise((res) => setTimeout(res, 2000));
+    }
+  }
+};
+
 export default async function publishNotification({
   senderId,
   receiverId,
   entityId,
   type,
 }) {
-  const connection = await amqplib.connect("amqp://localhost:5672");
+  const connection = await connectWithRetry();
   const channel = await connection.createChannel();
   const queue = "notification";
 

@@ -4,7 +4,7 @@
 
 The Likes Service is a RESTful API microservice that handles liking, unliking, disliking, and undisliking reviews.
 
-**Base URL**: `http://localhost:7060`
+**Base URL**: `http://localhost:3004`
 
 ## Running the Service
 
@@ -19,13 +19,13 @@ npm run dev
 node index.js
 ```
 
-The service will start on `http://localhost:7060` by default.
+The service will start on `http://localhost:3004` by default.
 
 ## Notes
 
-- RabbitMQ Needs to be running for the notifications service to work with likes microservice.
+RabbitMQ needs to be running for the notifications service to work with the Likes Service.
 
----
+## Works alongside Review Service and User Service to ensure consistency.
 
 ## API Endpoints
 
@@ -38,7 +38,7 @@ The service will start on `http://localhost:7060` by default.
 **Example Request**:
 
 ```javascript
-const response = await fetch(`http://localhost:7060/likes/review/${reviewId}`, {
+const response = await fetch(`http://localhost:3004/likes/review/${reviewId}`, {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
@@ -81,7 +81,7 @@ console.log(data);
 **Example Request**:
 
 ```javascript
-const response = await fetch(`http://localhost:7060/likes/likes/${19}/${3}`, {
+const response = await fetch(`http://localhost:3004/likes/likes/${19}/${3}`, {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
@@ -106,7 +106,7 @@ console.log(data);
 
 ```javascript
 const response = await fetch(
-  `http://localhost:7060/likes/dislikes/${19}/${3}`,
+  `http://localhost:3004/likes/dislikes/${19}/${3}`,
   {
     method: "POST",
     headers: {
